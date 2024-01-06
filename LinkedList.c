@@ -110,9 +110,9 @@ void printList(LinkedList* list)
  *
  * @return Length (number of nodes) of the list.
  */
-uint8_t getListLength(LinkedList* list) 
+size_t getLength(const LinkedList* list) 
 {
-    uint8_t length = 0;
+    size_t length = 0;
 
     Node* current_node = list->head;
     while(current_node->next != NULL) {
