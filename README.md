@@ -25,6 +25,12 @@ Represents the linked list.
 
 ## Functions
 
+### `LinkedList* createLinkedList(void)`
+
+Creates and initializes an empty linked list.
+
+- **Returns:** A pointer to the newly created linked list.
+
 ### `void insertNode(LinkedList* list, uint8_t index)`
 
 Inserts a new node at the specified index in the linked list. If the index is out of bounds, the node is appended to the end.
@@ -48,7 +54,7 @@ Removes the last node from the linked list.
 - **Parameters:**
   - `list`: Pointer to the linked list.
 
-### `void removeNode(LinkedList* list, uint8_t index)`
+### `void deleteNode(LinkedList* list, uint8_t index)`
 
 Removes the node at the specified index from the linked list.
 
