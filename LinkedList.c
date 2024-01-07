@@ -48,10 +48,7 @@ void* saferAlloc(size_t n);
  */
 LinkedList* createLinkedList() 
 {
-    LinkedList* list = {
-        NULL
-    };
-
+    LinkedList* list = (LinkedList*)saferAlloc(sizeof(LinkedList));
     return list;
 }
 
@@ -63,6 +60,16 @@ LinkedList* createLinkedList()
  */
 void appendNode(LinkedList* list, int16_t data) 
 {
+    Node* node = (Node*)saferAlloc(sizeof(Node));
+    node->data = data;
+    node->next = NULL;
+
+    Node* current_node = list->head;
+    while (current_node->next != NULL) {
+        current_node = current_node->next;
+    }
+
+    current_node->next = node;
 }
 
 /*
