@@ -91,7 +91,13 @@ void removeNode(Node* list, uint8_t index)
  */
 void printList(LinkedList* list) 
 {
-    Node* current_node = list->head;
+    // Empty list
+    if (list->head == NULL) {
+        printf("The list is empty.");
+        return;
+    }
+
+    const Node* current_node = list->head;
 
     while (current_node->next != NULL) {
         printf("%d ", current_node->data);
@@ -112,7 +118,13 @@ void printList(LinkedList* list)
  */
 size_t getLength(const LinkedList* list) 
 {
+
     size_t length = 0;
+
+    // Empty list
+    if (list->head == NULL) {
+        return length;
+    }
 
     Node* current_node = list->head;
     while(current_node->next != NULL) {
