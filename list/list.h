@@ -8,7 +8,7 @@
 // ---
 typedef struct Node {
         int data;
-        Node* next;
+        struct Node* next;
 } Node;
 
 typedef struct LinkedList {
@@ -30,7 +30,7 @@ typedef struct LinkedList {
 LinkedList* new_list();
 int pop_n(LinkedList* list, int value, int index);
 int insert_n(LinkedList* list, int value, int index);
-int drop_list(LinkedList* list);
+void drop_list(LinkedList* list);
 
 int insert_front(LinkedList* list, int value);
 int append(LinkedList *list, int value);
