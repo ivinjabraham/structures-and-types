@@ -1,9 +1,9 @@
 # Linked List
 Looking for new implementations that are more efficient, clever or simply better.  
 
-- Optional Cache
 - Double pointers
 - Optional tail pointer
+- Optional Cache
 - Memory pool instead of random assignment in heap
 
 # References
