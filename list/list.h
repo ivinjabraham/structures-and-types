@@ -34,6 +34,7 @@ void drop_list(LinkedList* list);
 
 int insert_front(LinkedList* list, int value);
 int append(LinkedList *list, int value);
+void print_list(LinkedList *list);
 
 // Extras
 int disable_tail_pointer(LinkedList *list);
