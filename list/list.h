@@ -31,10 +31,11 @@ LinkedList* new_list();
 int pop_n(LinkedList* list, int value, int index);
 int insert_n(LinkedList* list, int value, int index);
 void drop_list(LinkedList* list);
-
-int insert_front(LinkedList* list, int value);
-int append(LinkedList *list, int value);
 void print_list(LinkedList *list);
+
+Node* insert_front(LinkedList* list, int value);
+Node* append(LinkedList *list, int value);
+void _node_free(Node* node);
 
 // Extras
 int disable_tail_pointer(LinkedList *list);
