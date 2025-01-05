@@ -31,6 +31,7 @@ void pop_n(LinkedList* list, int index) {
                 Node* new_head = list->head->next;
                 free(list->head);
                 list->head = new_head;
+                list->length -= 1;
         } else if (index == list->length - 1) {
                 Node* traversal_node = list->head;
 
@@ -41,6 +42,7 @@ void pop_n(LinkedList* list, int index) {
                 traversal_node->next = NULL;
                 free(list->tail);
                 list->tail = traversal_node;
+                list->length -= 1;
         } else {
                 int counter = 0;
 
@@ -53,6 +55,7 @@ void pop_n(LinkedList* list, int index) {
                 Node* popped_node = current_node->next;
                 current_node->next = popped_node->next;
                 free(popped_node);
+                list->length -= 1;
         }
 }
 
