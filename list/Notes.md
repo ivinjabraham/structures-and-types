@@ -1,8 +1,8 @@
 # Linked List
 Looking for new implementations that are more efficient, clever or simply better.  
 
-- Double pointers
-- Optional tail pointer
+- Double pointers: Turns out we don't need them cause we use a structure to hold the head of the list.
+- Optional tail pointer: Implemented, but it's not optional. Not sure why a pointer worth of memory is worth making optional. This isn't designed to be used in memory intensive scenarios anway.
 - Optional Cache
 - Memory pool instead of random assignment in heap
 
