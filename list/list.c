@@ -171,3 +171,19 @@ Node* append(LinkedList *list, int value) {
 
         return node;
 }
+
+int get(LinkedList* list, int index) {
+        if (index < 0 || index >= list->length) {
+                printf("ERR: Index out of bounds.\n");
+                exit(-1);
+        }
+        int counter = 0;
+        Node* current_node = list->head;
+
+        while (counter != index) {
+                current_node = current_node->next;
+                counter++;
+        }
+
+        return current_node->data;
+}

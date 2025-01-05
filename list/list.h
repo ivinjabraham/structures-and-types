@@ -28,6 +28,7 @@ typedef struct LinkedList {
 // ---
 
 LinkedList* new_list();
+int get(LinkedList* list, int index);
 void pop_n(LinkedList* list, int index);
 Node* insert_n(LinkedList* list, int value, int index);
 void drop_list(LinkedList* list);
