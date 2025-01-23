@@ -142,6 +142,7 @@ void drop_list(LinkedList* list) {
         free(list);
 }
 
+// Recursive functions can eat away at the stack
 void _node_free(Node* node) {
         if (node->next == NULL) {
                 free(node);
@@ -209,7 +210,7 @@ Node* append(LinkedList *list, int value) {
 int get(LinkedList* list, int index) {
         if (index < 0 || index >= list->length) {
                 printf("ERR: Index out of bounds.\n");
-                exit(-1);
+                return -1;
         }
         int counter = 0;
         Node* current_node = list->head;
