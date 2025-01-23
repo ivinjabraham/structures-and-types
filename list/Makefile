@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-SRCS = example.c list.c
+SRCS = test.c list.c
 OBJS = $(SRCS:.c=.o)
 TARGET = main
 
@@ -13,6 +13,6 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f *.o
 
 .PHONY: all clean
