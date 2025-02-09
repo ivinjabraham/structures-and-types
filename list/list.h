@@ -39,11 +39,4 @@ Node* insert_front(LinkedList* list, int value);
 Node* append(LinkedList *list, int value);
 void _node_free(Node* node);
 
-// Not Implemented
-// ---
-
-// Extras
-int disable_tail_pointer(LinkedList *list);
-int disable_cache(LinkedList *list);
-
 #endif
