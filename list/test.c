@@ -1,6 +1,8 @@
 #include "list.h"
 #include <stdio.h>
 
+// Note that test.c does not guarantee that the implementation is logically sound
+
 int main() {
         LinkedList *append_list = new_list();
         if (append_list == NULL) {
