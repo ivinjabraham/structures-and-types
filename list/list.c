@@ -306,3 +306,31 @@ int get(LinkedList *list, int index) {
 
         return current_node->data;
 }
+
+ListResult clear_list(LinkedList* list) 
+{
+        if (!list) {
+                return print_error("List pointer is NULL", LIST_NULL_ERROR);
+        }
+
+        if (list->length == 0) {
+                return print_error("List is empty", LIST_EMPTY_ERROR);
+        }
+
+        Node* tail = list->tail;
+        Node* to_free = tail;
+        while (tail->prev) {
+                tail = tail->prev;
+                free(to_free);
+                to_free = tail;
+        }
+
+        free(tail);
+
+        list->head = NULL;
+        list->tail = NULL;
+        list->length = 0;
+
+        return LIST_SUCCESS;
+
+}

@@ -41,7 +41,8 @@ int get(LinkedList* list, int index);
 ListResult pop_n(LinkedList* list, int index);
 Node* insert_n(LinkedList* list, int value, int index);
 void drop_list(LinkedList* list);
-void print_list(LinkedList *list);
+void print_list(LinkedList* list);
+ListResult clear_list(LinkedList* list);
 
 Node* insert_front(LinkedList* list, int value);
 Node* append(LinkedList *list, int value);
