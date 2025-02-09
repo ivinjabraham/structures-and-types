@@ -284,6 +284,18 @@ int get(LinkedList *list, int index) {
                 return print_error("Index out of bounds", LIST_INDEX_ERROR);
         }
 
+        if (index > list->length / 2) {
+            Node* current = list->tail;
+            int current_index = list->length - 1;
+
+            while (current_index != index) {
+                current = current->prev;
+                current_index--;
+            }
+
+            return current->data;
+        }
+
         int counter = 0;
         Node *current_node = list->head;
 
