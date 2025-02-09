@@ -121,6 +121,11 @@ Node* insert_n(LinkedList* list, int value, int index) {
                 return NULL;
         }
 
+        if (index < 0 || index > list->length) {
+                print_error("Index out of bounds", LIST_INDEX_ERROR);
+                return NULL;
+        }
+
         // Replace head with new node
         if (index == 0) {
                 Node* new_node = insert_front(list, value);
