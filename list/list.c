@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+ListResult print_error(const char* message, const ListResult err) {
+        fprintf(stderr, "Error : %s\n", message);
+        return err;
+}
 
 LinkedList* new_list() {
         // Every attribute is set to 0
@@ -20,14 +24,17 @@ LinkedList* new_list() {
         return list;
 }
 
-void pop_n(LinkedList* list, int index) {
+ListResult pop_n(LinkedList* list, int index) {
         if (!list) {
-                return;
+                return print_error("List pointer is NULL", LIST_NULL_ERROR);
         }
 
         if (list->head == NULL || index >= list->length) {
-                printf("ERR: Index out of bounds.\n");
-                exit(-1);
+                return print_error("Index out of bounds", LIST_INDEX_ERROR);
+        }
+
+        if (list->length == 0) {
+                return print_error("List is empty", LIST_EMPTY_ERROR);
         }
 
         // Pop head
@@ -56,7 +63,6 @@ void pop_n(LinkedList* list, int index) {
 
                 free(list->tail);
                 list->tail = second_last_node;
-
                 list->length -= 1;
         } else {
                 int middle_index = (list->length - 1) / 2;
@@ -67,6 +73,11 @@ void pop_n(LinkedList* list, int index) {
                         Node* current_node = list->tail;
                         while (current_index != index) {
                                 current_node = current_node->prev;
+
+                                if (!current_node) {
+                                        return print_error("Unexpected NULL pointer while traversing", LIST_UNEXP_NULL);
+                                }
+
                                 current_index--;
                         }
 
@@ -82,6 +93,11 @@ void pop_n(LinkedList* list, int index) {
                         Node* current_node = list->head;
                         while (current_index != index - 1) {
                                 current_node = current_node->next;
+
+                                if (!current_node) {
+                                        return print_error("Unexpected NULL pointer while traversing", LIST_UNEXP_NULL);
+                                }
+
                                 current_index++;
                         }
 
@@ -95,13 +111,16 @@ void pop_n(LinkedList* list, int index) {
 
                 list->length -= 1;
         }
+
+        return LIST_SUCCESS;
 }
 
 Node* insert_n(LinkedList* list, int value, int index) {
         if (!list) {
+                print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
         }
-                
+
         // Replace head with new node
         if (index == 0) {
                 Node* new_node = insert_front(list, value);
@@ -119,15 +138,15 @@ Node* insert_n(LinkedList* list, int value, int index) {
 
                 // Empty list
                 if (list->head == NULL) {
-                        printf("ERR: Index out of bounds.\n");
-                        exit(-1);
+                        print_error("Index out of bounds", LIST_INDEX_ERROR);
+                        return NULL;
                 }
                 Node* current_node = list->head;
                 while (counter != index - 1) {
                         // Reached end of list
                         if (current_node->next == NULL) {
-                                printf("ERR: Index out of bounds.\n");
-                                exit(-1);
+                                print_error("Index out of bounds", LIST_INDEX_ERROR);
+                                return NULL;
                         }
                         current_node = current_node->next;
                         counter++;
@@ -153,6 +172,7 @@ Node* insert_n(LinkedList* list, int value, int index) {
 
 void drop_list(LinkedList* list) {
         if (!list) {
+                print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return;
         }
 
@@ -178,6 +198,7 @@ void _node_free(Node* node) {
 
 void print_list(LinkedList *list) {
         if (!list) {
+                print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return;
         }
 
@@ -199,6 +220,7 @@ void print_list(LinkedList *list) {
 
 Node* insert_front(LinkedList* list, int value) {
         if (!list) {
+                print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
         }
 
@@ -222,6 +244,7 @@ Node* insert_front(LinkedList* list, int value) {
 
 Node* append(LinkedList *list, int value) {
         if (!list) {
+                print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
         }
 
@@ -245,13 +268,13 @@ Node* append(LinkedList *list, int value) {
 
 int get(LinkedList* list, int index) {
         if (!list) {
-                return NULL;
+                return print_error("List pointer is NULL", LIST_NULL_ERROR);
         }
 
         if (index < 0 || index >= list->length) {
-                printf("ERR: Index out of bounds.\n");
-                return -1;
+                return print_error("Index out of bounds", LIST_INDEX_ERROR);
         }
+
         int counter = 0;
         Node* current_node = list->head;
 

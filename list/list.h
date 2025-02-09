@@ -23,6 +23,14 @@ typedef struct LinkedList {
         Node *cache;
 } LinkedList;
 
+typedef enum {
+        LIST_SUCCESS = 0,
+        LIST_NULL_ERROR = -1,
+        LIST_INDEX_ERROR = -2,
+        LIST_MEMORY_ERROR = -3,
+        LIST_EMPTY_ERROR = -4,
+        LIST_UNEXP_NULL = -5,
+} ListResult;
 
 // ---
 // Methods
@@ -30,7 +38,7 @@ typedef struct LinkedList {
 
 LinkedList* new_list();
 int get(LinkedList* list, int index);
-void pop_n(LinkedList* list, int index);
+ListResult pop_n(LinkedList* list, int index);
 Node* insert_n(LinkedList* list, int value, int index);
 void drop_list(LinkedList* list);
 void print_list(LinkedList *list);
