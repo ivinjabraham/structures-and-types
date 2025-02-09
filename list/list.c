@@ -190,21 +190,13 @@ void drop_list(LinkedList* list) {
         free(list->cache);
         Node *current_node = list->head;
 
-        if (current_node != NULL) {
-                _node_free(current_node);
+        while (current_node != NULL) {
+                Node* next = current_node->next;
+                free(current_node);
+                current_node = next;
         }
 
         free(list);
-}
-
-// Recursive functions can eat away at the stack
-void _node_free(Node* node) {
-        if (node->next == NULL) {
-                free(node);
-        } else {
-                _node_free(node->next);
-                free(node);
-        }
 }
 
 void print_list(LinkedList *list) {
