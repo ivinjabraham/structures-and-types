@@ -153,6 +153,12 @@ Node* insert_n(LinkedList* list, int value, int index) {
                 }
 
                 Node* new_node = (Node*) calloc(1, sizeof(Node));
+
+                if (!new_node) {
+                        print_error("Could not allocate memory for new node", LIST_MEMORY_ERROR);
+                        return NULL;
+                }
+
                 new_node->data = value;
                 new_node->prev = current_node;
 
