@@ -1,21 +1,20 @@
 #include "list.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-ListResult print_error(const char* message, const ListResult err) {
+ListResult print_error(const char *message, const ListResult err) {
         fprintf(stderr, "Error : %s\n", message);
         return err;
 }
 
-LinkedList* new_list() {
-        // Every attribute is set to 0
-        LinkedList* list = (LinkedList*) calloc(1, sizeof(LinkedList));
+LinkedList *new_list() {
+        LinkedList *list = (LinkedList *)calloc(1, sizeof(LinkedList));
         if (list == NULL) {
                 return NULL;
         }
 
         // Ignore cache for now, will implement later
-        Node* cache = (Node*) calloc(5, sizeof(Node));
+        Node *cache = (Node *)calloc(5, sizeof(Node));
         if (cache == NULL) {
                 return NULL;
         }
@@ -24,7 +23,7 @@ LinkedList* new_list() {
         return list;
 }
 
-ListResult pop_n(LinkedList* list, int index) {
+ListResult pop_n(LinkedList *list, int index) {
         if (!list) {
                 return print_error("List pointer is NULL", LIST_NULL_ERROR);
         }
@@ -40,28 +39,30 @@ ListResult pop_n(LinkedList* list, int index) {
         // Pop head
         if (index == 0) {
                 // This can be NULL when there's only one element in the list
-                Node* new_head = list->head->next;
+                Node *new_head = list->head->next;
                 free(list->head);
+
                 list->head = new_head;
-                
                 if (new_head) {
                         new_head->prev = NULL;
                 } else {
-                        list->tail = NULL;
+                        list->tail = NULL; // There is second node, list only has one element
                 }
 
                 list->length -= 1;
+
         // Pop last element
         } else if (index == list->length - 1) {
-                Node* second_last_node = list->tail->prev;
+                Node *second_last_node = list->tail->prev;
+
                 if (!second_last_node) {
-                        list->head = NULL;
-                // There is no second last node, list only has one element
-                } else { 
+                        list->head = NULL;  // There is no second last node, list only has one element
+                } else {
                         second_last_node->next = NULL;
                 }
 
                 free(list->tail);
+
                 list->tail = second_last_node;
                 list->length -= 1;
         } else {
@@ -69,13 +70,14 @@ ListResult pop_n(LinkedList* list, int index) {
 
                 if (index > middle_index) {
                         int current_index = list->length - 1;
+                        Node *current_node = list->tail;
 
-                        Node* current_node = list->tail;
                         while (current_index != index) {
                                 current_node = current_node->prev;
 
                                 if (!current_node) {
-                                        return print_error("Unexpected NULL pointer while traversing", LIST_UNEXP_NULL);
+                                        return print_error("Unexpected NULL pointer while traversing",
+                                                        LIST_UNEXP_NULL);
                                 }
 
                                 current_index--;
@@ -85,27 +87,30 @@ ListResult pop_n(LinkedList* list, int index) {
                         if (current_node->next) {
                                 current_node->next->prev = current_node->prev;
                         }
+
                         free(current_node);
 
                 } else {
                         int current_index = 0;
+                        Node *current_node = list->head;
 
-                        Node* current_node = list->head;
                         while (current_index != index - 1) {
                                 current_node = current_node->next;
 
                                 if (!current_node) {
-                                        return print_error("Unexpected NULL pointer while traversing", LIST_UNEXP_NULL);
+                                        return print_error("Unexpected NULL pointer while traversing",
+                                                        LIST_UNEXP_NULL);
                                 }
 
                                 current_index++;
                         }
 
-                        Node* popped_node = current_node->next;
+                        Node *popped_node = current_node->next;
                         current_node->next = popped_node->next;
                         if (popped_node->next) {
                                 popped_node->next->prev = current_node;
                         }
+
                         free(popped_node);
                 }
 
@@ -115,7 +120,7 @@ ListResult pop_n(LinkedList* list, int index) {
         return LIST_SUCCESS;
 }
 
-Node* insert_n(LinkedList* list, int value, int index) {
+Node *insert_n(LinkedList *list, int value, int index) {
         if (!list) {
                 print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
@@ -128,13 +133,14 @@ Node* insert_n(LinkedList* list, int value, int index) {
 
         // Replace head with new node
         if (index == 0) {
-                Node* new_node = insert_front(list, value);
+                Node *new_node = insert_front(list, value);
                 return new_node;
 
         // Add node to the end
         } else if (index == list->length) {
-                Node* new_node = append(list, value);
+                Node *new_node = append(list, value);
                 list->tail = new_node;
+
                 return new_node;
 
         // Add node to somewhere in between
@@ -146,7 +152,8 @@ Node* insert_n(LinkedList* list, int value, int index) {
                         print_error("Index out of bounds", LIST_INDEX_ERROR);
                         return NULL;
                 }
-                Node* current_node = list->head;
+
+                Node *current_node = list->head;
                 while (counter != index - 1) {
                         // Reached end of list
                         if (current_node->next == NULL) {
@@ -157,8 +164,7 @@ Node* insert_n(LinkedList* list, int value, int index) {
                         counter++;
                 }
 
-                Node* new_node = (Node*) calloc(1, sizeof(Node));
-
+                Node *new_node = (Node *)calloc(1, sizeof(Node));
                 if (!new_node) {
                         print_error("Could not allocate memory for new node", LIST_MEMORY_ERROR);
                         return NULL;
@@ -166,32 +172,31 @@ Node* insert_n(LinkedList* list, int value, int index) {
 
                 new_node->data = value;
                 new_node->prev = current_node;
+                Node *temp_node = current_node->next;
 
-                Node* temp_node = current_node->next;
                 if (temp_node) {
                         temp_node->prev = new_node;
                         new_node->next = temp_node;
                 }
 
                 current_node->next = new_node;
-
                 list->length += 1;
 
                 return new_node;
         }
 }
 
-void drop_list(LinkedList* list) {
+void drop_list(LinkedList *list) {
         if (!list) {
                 print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return;
         }
 
         free(list->cache);
-        Node *current_node = list->head;
 
+        Node *current_node = list->head;
         while (current_node != NULL) {
-                Node* next = current_node->next;
+                Node *next = current_node->next;
                 free(current_node);
                 current_node = next;
         }
@@ -211,6 +216,7 @@ void print_list(LinkedList *list) {
         }
 
         Node *current_node = list->head;
+
         printf("[");
         while (current_node->next != NULL) {
                 printf("%d, ", current_node->data);
@@ -221,13 +227,13 @@ void print_list(LinkedList *list) {
         return;
 }
 
-Node* insert_front(LinkedList* list, int value) {
+Node *insert_front(LinkedList *list, int value) {
         if (!list) {
                 print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
         }
 
-        Node *node = (Node*) calloc(1, sizeof(Node));
+        Node *node = (Node *)calloc(1, sizeof(Node));
         node->data = value;
 
         // if list is empty
@@ -245,13 +251,13 @@ Node* insert_front(LinkedList* list, int value) {
         return node;
 }
 
-Node* append(LinkedList *list, int value) {
+Node *append(LinkedList *list, int value) {
         if (!list) {
                 print_error("List pointer is NULL", LIST_NULL_ERROR);
                 return NULL;
         }
 
-        Node *node = (Node*) calloc(1, sizeof(Node));
+        Node *node = (Node *)calloc(1, sizeof(Node));
         node->next = NULL;
         node->prev = list->tail;
         node->data = value;
@@ -269,7 +275,7 @@ Node* append(LinkedList *list, int value) {
         return node;
 }
 
-int get(LinkedList* list, int index) {
+int get(LinkedList *list, int index) {
         if (!list) {
                 return print_error("List pointer is NULL", LIST_NULL_ERROR);
         }
@@ -279,7 +285,7 @@ int get(LinkedList* list, int index) {
         }
 
         int counter = 0;
-        Node* current_node = list->head;
+        Node *current_node = list->head;
 
         while (counter != index) {
                 current_node = current_node->next;
