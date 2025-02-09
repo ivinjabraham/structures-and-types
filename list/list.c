@@ -21,6 +21,10 @@ LinkedList* new_list() {
 }
 
 void pop_n(LinkedList* list, int index) {
+        if (!list) {
+                return;
+        }
+
         if (list->head == NULL || index >= list->length) {
                 printf("ERR: Index out of bounds.\n");
                 exit(-1);
@@ -94,6 +98,10 @@ void pop_n(LinkedList* list, int index) {
 }
 
 Node* insert_n(LinkedList* list, int value, int index) {
+        if (!list) {
+                return NULL;
+        }
+                
         // Replace head with new node
         if (index == 0) {
                 Node* new_node = insert_front(list, value);
@@ -144,6 +152,10 @@ Node* insert_n(LinkedList* list, int value, int index) {
 }
 
 void drop_list(LinkedList* list) {
+        if (!list) {
+                return;
+        }
+
         free(list->cache);
         Node *current_node = list->head;
 
@@ -165,6 +177,10 @@ void _node_free(Node* node) {
 }
 
 void print_list(LinkedList *list) {
+        if (!list) {
+                return;
+        }
+
         if (list->length == 0) {
                 printf("\n");
                 return;
@@ -182,6 +198,10 @@ void print_list(LinkedList *list) {
 }
 
 Node* insert_front(LinkedList* list, int value) {
+        if (!list) {
+                return NULL;
+        }
+
         Node *node = (Node*) calloc(1, sizeof(Node));
         node->data = value;
 
@@ -201,6 +221,10 @@ Node* insert_front(LinkedList* list, int value) {
 }
 
 Node* append(LinkedList *list, int value) {
+        if (!list) {
+                return NULL;
+        }
+
         Node *node = (Node*) calloc(1, sizeof(Node));
         node->next = NULL;
         node->prev = list->tail;
@@ -220,6 +244,10 @@ Node* append(LinkedList *list, int value) {
 }
 
 int get(LinkedList* list, int index) {
+        if (!list) {
+                return NULL;
+        }
+
         if (index < 0 || index >= list->length) {
                 printf("ERR: Index out of bounds.\n");
                 return -1;
