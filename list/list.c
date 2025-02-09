@@ -32,6 +32,12 @@ void pop_n(LinkedList* list, int index) {
                 Node* new_head = list->head->next;
                 free(list->head);
                 list->head = new_head;
+                
+                if (new_head) {
+                        new_head->prev = NULL;
+                } else {
+                        list->tail = NULL;
+                }
 
                 list->length -= 1;
         // Pop last element
@@ -55,25 +61,31 @@ void pop_n(LinkedList* list, int index) {
                         int current_index = list->length - 1;
 
                         Node* current_node = list->tail;
-                        while (current_index-- != index) {
+                        while (current_index != index) {
                                 current_node = current_node->prev;
+                                current_index--;
                         }
 
                         current_node->prev->next = current_node->next;
+                        if (current_node->next) {
+                                current_node->next->prev = current_node->prev;
+                        }
                         free(current_node);
 
                 } else {
                         int current_index = 0;
 
                         Node* current_node = list->head;
-                        while (current_index++ != index - 1) {
-                                printf("What %d %d", current_index, index - 1);
+                        while (current_index != index - 1) {
                                 current_node = current_node->next;
+                                current_index++;
                         }
 
                         Node* popped_node = current_node->next;
                         current_node->next = popped_node->next;
-                        popped_node->next->prev = current_node;
+                        if (popped_node->next) {
+                                popped_node->next->prev = current_node;
+                        }
                         free(popped_node);
                 }
 
